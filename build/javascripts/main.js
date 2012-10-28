@@ -52,7 +52,30 @@
         console.log("bad params");
       }
       if (j.status === -2) {
-        return console.log("av");
+        console.log("av");
+      }
+      if (who === 0) {
+        TweenLite.to($('#romney'), .3, {
+          css: {
+            left: '100%'
+          }
+        });
+        return TweenLite.to($('#obama'), .3, {
+          css: {
+            right: '0%'
+          }
+        });
+      } else {
+        TweenLite.to($('#romney'), .3, {
+          css: {
+            left: '0%'
+          }
+        });
+        return TweenLite.to($('#obama'), .3, {
+          css: {
+            right: '100%'
+          }
+        });
       }
     });
   };
@@ -65,13 +88,13 @@
       j = JSON.parse(data);
       obama_per = Math.round((j.o / (j.o + j.r)) * 100);
       rom_per = Math.round((j.r / (j.o + j.r)) * 100);
-      TweenLite.to($(".count.obama"), 3, {
+      TweenLite.to($("#obama .count"), 3, {
         css: {
           bottom: obama_per + '%'
         },
         delay: 1
       });
-      TweenLite.to($(".count.romney"), 3, {
+      TweenLite.to($("#romney .count"), 3, {
         css: {
           bottom: rom_per + '%'
         },
@@ -84,7 +107,7 @@
         percent: obama_per,
         delay: 1,
         onUpdate: function() {
-          return $('.count.obama').html(Math.round(obamaT.percent) + '%');
+          return $('#obama .count').html(Math.floor(Math.round(obamaT.percent)) + '%');
         }
       });
       romneyT = {
@@ -94,7 +117,7 @@
         percent: rom_per,
         delay: 1,
         onUpdate: function() {
-          return $('.count.romney').html(Math.round(romneyT.percent) + '%');
+          return $('#romney .count').html(Math.floor(Math.round(romneyT.percent)) + '%');
         }
       });
     });
@@ -102,98 +125,74 @@
 
   setListeners = function() {
     $('.check').on('click', function() {
-      console.log($(this).parent().children('.vote'));
+      var notCandidate, obama, romney, whichCandidate;
+      whichCandidate = $(this).parent().parent().attr('id');
+      notCandidate = (whichCandidate === "obama" ? 'romney' : 'obama');
+      obama = (whichCandidate === "obama" ? '40%' : '60%');
+      romney = (whichCandidate === "romney" ? '40%' : '60%');
+      TweenLite.to($('#' + notCandidate + ' .check'), .3, {
+        css: {
+          marginLeft: -18
+        }
+      });
+      TweenLite.to($('#' + notCandidate + ' .vote'), .3, {
+        css: {
+          opacity: 0,
+          marginLeft: -60
+        }
+      });
       TweenLite.to($(this), .3, {
         css: {
           marginLeft: -67
         }
       });
-      return TweenLite.to($(this).parent().children('.vote'), .3, {
+      TweenLite.to($(this).parent().children('.vote'), .3, {
         css: {
           opacity: 1,
           marginLeft: -22
         }
       });
-    });
-    $('#obama .check').on('click', function() {
       if ($(this).hasClass('active')) {
-        TweenLite.to($('.count'), .3, {
+        $('.check').removeClass('active');
+        TweenLite.to($('#romney'), .3, {
           css: {
             left: '50%'
           }
         });
-        $('.check').removeClass('active');
         TweenLite.to($('#obama'), .3, {
           css: {
             right: '50%'
           }
         });
-        return TweenLite.to($('#romney'), .3, {
+        TweenLite.to($('.check'), .3, {
           css: {
-            left: '50%'
+            marginLeft: -18
+          }
+        });
+        return TweenLite.to($('.vote'), .3, {
+          css: {
+            opacity: 0,
+            marginLeft: -60
           }
         });
       } else {
-        TweenLite.to($('.count'), .3, {
-          css: {
-            left: '60%'
-          }
-        });
         $('.check').removeClass('active');
         $(this).addClass('active');
         TweenLite.to($('#obama'), .3, {
           css: {
-            right: '40%'
+            right: obama
           }
         });
         return TweenLite.to($('#romney'), .3, {
           css: {
-            left: '60%'
-          }
-        });
-      }
-    });
-    $('#romney .check').on('click', function() {
-      if ($(this).hasClass('active')) {
-        TweenLite.to($('.count'), .3, {
-          css: {
-            left: '50%'
-          }
-        });
-        $('.check').removeClass('active');
-        TweenLite.to($('#obama'), .3, {
-          css: {
-            right: '50%'
-          }
-        });
-        return TweenLite.to($('#romney'), .3, {
-          css: {
-            left: '50%'
-          }
-        });
-      } else {
-        TweenLite.to($('.count'), .3, {
-          css: {
-            left: '40%'
-          }
-        });
-        $('.check').removeClass('active');
-        $(this).addClass('active');
-        TweenLite.to($('#obama'), .3, {
-          css: {
-            right: '60%'
-          }
-        });
-        return TweenLite.to($('#romney'), .3, {
-          css: {
-            left: '40%'
+            left: romney
           }
         });
       }
     });
     return $('.vote').on('click', function() {
       var who;
-      if (!$(this).hasClass('disabled')) {
+      if (!$(this).hasClass('disabled_not')) {
         who = ($(this).parent().parent().attr("id") === "obama" ? 0 : 1);
         return FB.login((function(response) {
           if (response.authResponse) {

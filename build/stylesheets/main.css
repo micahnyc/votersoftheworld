@@ -72,26 +72,16 @@ body {
     margin: 5px;
     background: #AAA; }
 
-#vote {
-  width: 80px;
-  height: 40px;
-  background: #f1f1f1;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+h1 {
+  width: 514px;
+  height: 112px;
+  background: url(../images/electionlogo.png);
   position: absolute;
-  top: 250px;
+  top: 10px;
   left: 50%;
-  margin-left: -40px;
-  z-index: 2;
-  text-align: center;
-  font-size: 16px;
-  text-transform: uppercase;
-  color: #777;
-  font-weight: bold;
-  line-height: 40px;
+  margin-left: -257px;
+  text-indent: -9999px;
+  z-index: 9999;
   display: none; }
 
 .profile {
@@ -164,12 +154,16 @@ body {
     line-height: 36px;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
     opacity: 0;
-    cursor: pointer; }
+    cursor: pointer;
+    color: #999;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); }
 
-#obama .vote {
+#obama .vote:hover {
   color: #026f9f; }
 
-#romney .vote {
+#romney .vote:hover {
   color: #de3339; }
 
 .count {
@@ -181,8 +175,6 @@ body {
   font-weight: bold;
   position: absolute;
   bottom: 50%;
-  left: 50%;
-  margin-left: -23px;
   color: #444;
   z-index: 999;
   -webkit-border-radius: 3px;
@@ -193,32 +185,30 @@ body {
   -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); }
-  .count.romney {
-    margin-left: 10px; }
-    .count.romney:after {
-      content: "";
-      width: 0;
-      height: 0;
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-      border-right: 5px solid rgba(255, 255, 255, 0.8);
-      position: absolute;
-      top: 9px;
-      left: 2px;
-      margin-left: -7px; }
-  .count.obama {
-    margin-left: -55px; }
-    .count.obama:after {
-      content: "";
-      width: 0;
-      height: 0;
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-      border-left: 5px solid rgba(255, 255, 255, 0.8);
-      position: absolute;
-      top: 9px;
-      right: -5px;
-      margin-left: -7px; }
+  .count:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    position: absolute;
+    top: 9px; }
+
+#obama .count {
+  margin-left: -55px;
+  right: 10px; }
+  #obama .count:after {
+    border-left: 5px solid rgba(255, 255, 255, 0.8);
+    right: -5px;
+    margin-left: -7px; }
+
+#romney .count {
+  margin-left: 10px;
+  left: 0px; }
+  #romney .count:after {
+    border-right: 5px solid rgba(255, 255, 255, 0.8);
+    left: 2px;
+    margin-left: -7px; }
 
 section {
   height: 100%;

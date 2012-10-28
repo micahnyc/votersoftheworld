@@ -6,47 +6,43 @@ body {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-.ad {
-	position: absolute;
-	bottom: 30px;
-	left: 50%;
-	margin-left: -369px;
-	width: 738px;
-	height: 100px;
-	background: #f1f1f1;
-	z-index: 999;
-	@include border-radius(5px);
-	@include box-shadow(1px 1px 3px rgba(0, 0, 0, .5));
-	.content {
-		width: 728px;
-		height: 90px;
-		margin: 5px;
-		background: #AAA;
-	}
+a {
+	color: #FFF;
+	text-decoration: none;
 }
 
-#vote {
-	width: 80px;
-	height: 40px;
-	background: #f1f1f1;
-	@include border-radius(5px);
+section {
+	height: 100%;
+	min-height: 775px;
+	top: 0px;
 	position: absolute;
-	top: 250px;
+	overflow: hidden;
+}
+
+section#obama {
+	left: 0px;
+	right: 50%;
+	background: #026f9f;
+	border-right: 1px solid #f1f1f1;
+	z-index: 1;
+	@include box-shadow(1px 0px 10px rgba(0, 0, 0, .5));
+	.profile .image {
+		background-image: url(../images/obama.jpg);
+	}
+
+}
+section#romney {
+	right: 0px;
 	left: 50%;
-	margin-left: -40px;
-	z-index: 2;
-	text-align: center;
-	font-size: 16px;
-	text-transform: uppercase;
-	color: #777;
-	font-weight: bold;
-	line-height: 40px;
-	display: none;
+	background: #de3339;
+	.profile .image {
+		background-image: url(../images/romney.jpg);
+	}
 }
 
 .profile {
 	width: 214px;
-	margin: 150px auto;
+	margin: 180px auto;
 	text-align: center;
 	position: relative;
 	.image {
@@ -105,7 +101,44 @@ body {
 		cursor: pointer;
 		color: #999;
 		@include box-shadow(1px 1px 2px rgba(0, 0, 0, .3));
+		&.disabled {
+			color: #999 !important;
+			cursor: default;
+		}
 	}
+}
+
+.ad {
+	position: absolute;
+	top: 600px;
+	left: 50%;
+	margin-left: -369px;
+	margin-bottom: 50px;
+	width: 738px;
+	height: 100px;
+	background: #f1f1f1;
+	z-index: 999;
+	@include border-radius(5px);
+	@include box-shadow(1px 1px 3px rgba(0, 0, 0, .5));
+	.content {
+		width: 728px;
+		height: 90px;
+		margin: 5px;
+		background: #AAA;
+	}
+}
+
+h1 {
+	width: 514px;
+	height: 112px;
+	background: url(../images/electionlogo.png);
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	margin-left: -257px;
+	text-indent: -9999px;
+	z-index: 9999;
+	display: none;
 }
 
 #obama .vote:hover {
@@ -160,30 +193,41 @@ body {
 	}
 }
 
-section {
-	height: 100%;
-	top: 0px;
+footer {
+	width: 100%;
+	height: 45px;
 	position: absolute;
-	overflow: hidden;
-}
-
-section#obama {
+	top: 730px;
 	left: 0px;
-	right: 50%;
-	background: #026f9f;
-	border-right: 1px solid #f1f1f1;
-	z-index: 1;
-	@include box-shadow(1px 0px 10px rgba(0, 0, 0, .5));
-	.profile .image {
-		background-image: url(../images/obama.jpg);
+	text-shadow: 1px 1px 1px #000;
+	z-index: 999;
+	font-size: 12px;
+	color: #FFF;
+	a {
+		font-weight: bold;
 	}
-
-}
-section#romney {
-	right: 0px;
-	left: 50%;
-	background: #de3339;
-	.profile .image {
-		background-image: url(../images/romney.jpg);
+	.created {
+		line-height: 50px;
+		margin-left: 15px;
+	}
+	.info, .time {
+		margin-left: 10px;
+		border-left: 1px solid rgba(255, 255, 255, .5);
+		padding-left: 10px;
+		&.time{
+			display: none;
+		}
+	}
+	.share {
+		float: right;
+		margin-top: 15px;
+		margin-right: 0px;
+		div, iframe {
+			float: left;
+			margin-right: 10px;
+		}
+		iframe {
+			width: 87px !important;
+		}
 	}
 }

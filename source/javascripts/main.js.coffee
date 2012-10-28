@@ -1,23 +1,23 @@
 window.fbAsyncInit = ->
 
 	FB.init
-	  appId: "399187936821393"
-	  status: true
-	  cookie: true
-	  xfbml: true
+		appId: "399187936821393"
+		status: true
+		cookie: true
+		xfbml: true
 
 	FB.getLoginStatus fbLoginStatus
 
 ((d) ->
-  js = undefined
-  id = "facebook-jssdk"
-  ref = d.getElementsByTagName("script")[0]
-  return  if d.getElementById(id)
-  js = d.createElement("script")
-  js.id = id
-  js.async = true
-  js.src = "//connect.facebook.net/en_US/all.js"
-  ref.parentNode.insertBefore js, ref
+	js = undefined
+	id = "facebook-jssdk"
+	ref = d.getElementsByTagName("script")[0]
+	return  if d.getElementById(id)
+	js = d.createElement("script")
+	js.id = id
+	js.async = true
+	js.src = "//connect.facebook.net/en_US/all.js"
+	ref.parentNode.insertBefore js, ref
 ) document
 
 $ ->
@@ -31,43 +31,58 @@ fbLoginStatus = (response)->
 
 vote = (token, who) ->
 	$.post "vote.php",
-	  vote: who
-	  access_token: token
+		vote: who
+		access_token: token
 	, (data) ->
-	  j = JSON.parse(data)
-	  console.log "good vote"  if j.status is 0
-	  console.log "bad params"  if j.status is -3
-	  console.log "av"  if j.status is -2
+		j = JSON.parse(data)
+		console.log "good vote"  if j.status is 0
+		console.log "bad params"  if j.status is -3
+		console.log "av"  if j.status is -2
+
+		if who is 0
+			TweenLite.to $('#romney'), .3,
+				css:
+					left: '100%'
+			TweenLite.to $('#obama'), .3,
+				css:
+					right: '0%'
+		else
+			TweenLite.to $('#romney'), .3,
+					css:
+						left: '0%'
+			TweenLite.to $('#obama'), .3,
+				css:
+					right: '100%'
 
 getVotes = ->
 	$.ajax(url: "http://onlineelection2012.com/num.php").success (data) ->
-	  j = JSON.parse(data)
-	  obama_per = Math.round((j.o / (j.o + j.r)) * 100)
-	  rom_per = Math.round((j.r / (j.o + j.r)) * 100)
+		j = JSON.parse(data)
+		obama_per = Math.round((j.o / (j.o + j.r)) * 100)
+		rom_per = Math.round((j.r / (j.o + j.r)) * 100)
 
-	  TweenLite.to $("#obama .count"), 3,
-	  	css:
-	  		bottom: obama_per + '%'
-	  	delay: 1
+		TweenLite.to $("#obama .count"), 3,
+			css:
+				bottom: obama_per + '%'
+			delay: 1
 
-	  TweenLite.to $("#romney .count"), 3,
-	  	css:
-	  		bottom: rom_per + '%'
-	  	delay: 1
+		TweenLite.to $("#romney .count"), 3,
+			css:
+				bottom: rom_per + '%'
+			delay: 1
 
-	  obamaT = {percent: 50}
-	  TweenLite.to obamaT, 3,
-	  	percent: obama_per
-	  	delay: 1
-	  	onUpdate: ->
-	  		$('#obama .count').html Math.floor(Math.round(obamaT.percent)) + '%'
+		obamaT = {percent: 50}
+		TweenLite.to obamaT, 3,
+			percent: obama_per
+			delay: 1
+			onUpdate: ->
+				$('#obama .count').html Math.floor(Math.round(obamaT.percent)) + '%'
 
-	  romneyT = {percent: 50}
-	  TweenLite.to romneyT, 3,
-	  	percent: rom_per
-	  	delay: 1
-	  	onUpdate: ->
-	  		$('#romney .count').html Math.floor(Math.round(romneyT.percent)) + '%'
+		romneyT = {percent: 50}
+		TweenLite.to romneyT, 3,
+			percent: rom_per
+			delay: 1
+			onUpdate: ->
+				$('#romney .count').html Math.floor(Math.round(romneyT.percent)) + '%'
 
 
 
@@ -126,12 +141,23 @@ setListeners = ->
 			TweenLite.to $('#romney'), .3,
 				css:
 					left: romney
-
 	$('.vote').on 'click', ->
-		unless $(this).hasClass 'disabled'
+		unless $(this).hasClass 'disabled_not'
 			who = (if ($(this).parent().parent().attr("id") is "obama") then 0 else 1)
 			FB.login ((response) ->
-			  if response.authResponse
-			    vote response.authResponse.accessToken, who
+				if response.authResponse
+					vote response.authResponse.accessToken, who
 			),
-			  scope: "user_location"
+				scope: "user_location"
+	$(window).on 'resize', ->
+		if $(window).height() > 775
+			$('footer').css
+				position: 'fixed'
+				bottom: '0px'
+				top: 'auto'
+		else
+			$('footer').css
+				position: 'absolute'
+				top: '730px'
+				bottom: 'auto'
+	$(window).resize()

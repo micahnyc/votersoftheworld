@@ -11,9 +11,22 @@
 		%meta{:content => "http://tmp.com/boxart.jpg", :property => "og:image"}
 		%meta{:content => "tmp", :property => "og:description"}
 		%meta{:content => "511488627", :property => "fb:admins"}
+		%title Voters of the World
 		%script{:src => "javascripts/modernizr-2.6.1.min.js", :type => "text/javascript"}
 		= stylesheet_link_tag 'main.css'
-		%script{:src => "http://code.jquery.com/jquery-1.8.2.min.js", :type => "text/javascript"}
-		%script{:src => "javascripts/main.js", :type => "text/javascript"}
+		= javascript_include_tag 'modernizr-2.6.1.min.js'
+		= javascript_include_tag 'http://code.jquery.com/jquery-1.8.2.min.js'
+		= javascript_include_tag 'TweenMax.min.js'
+		= javascript_include_tag 'main.js'
+		:javascript
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-20490970-7']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 %body{:class => page_classes}
 	= yield

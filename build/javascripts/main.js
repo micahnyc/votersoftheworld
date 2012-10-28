@@ -32,12 +32,30 @@
   });
 
   fbLoginStatus = function(response) {
+    console.log(response);
     if (response.status === "connected") {
       return $('.vote').html('Voted').addClass('disabled');
     }
   };
 
-  vote = function() {};
+  vote = function(token, who) {
+    return $.post("vote.php", {
+      vote: who,
+      access_token: token
+    }, function(data) {
+      var j;
+      j = JSON.parse(data);
+      if (j.status === 0) {
+        console.log("good vote");
+      }
+      if (j.status === -3) {
+        console.log("bad params");
+      }
+      if (j.status === -2) {
+        return console.log("av");
+      }
+    });
+  };
 
   getVotes = function() {
     return $.ajax({
@@ -173,10 +191,14 @@
         });
       }
     });
-    return $('vote').on('click', function() {
+    return $('.vote').on('click', function() {
+      var who;
       if (!$(this).hasClass('disabled')) {
+        who = ($(this).parent().parent().attr("id") === "obama" ? 0 : 1);
         return FB.login((function(response) {
-          return console.log(response);
+          if (response.authResponse) {
+            return vote(response.authResponse.accessToken, who);
+          }
         }), {
           scope: "user_location"
         });

@@ -1,38 +1,3 @@
-# $.ajax({url: "num.php"}).success(function(data)
-# {
-#  var j = JSON.parse(data);
-#  var obama_per = Math.round((j.o/(j.o+j.r))*100);
-#  var rom_per = Math.round((j.r/(j.o+j.r))*100);
-
-#  $('#obama .count').html(obama_per+"%");
-#  $('#romney .count').html(rom_per+"%");
-# });
-
-
-# $.post('vote.php', {vote:1,access_token:'AAAFrDy8sQJEBABdS4QW89TA7e2PS9ZA9FmuNtK1IJ5TOb4z8wWN8BXRoFwsHZBmj77ppZAwZA4cnIrmZBaRUmyKstE4dD2hjm3vS1maLZCTsZArrV23dbta'},function(data) {
-
-#  var j = JSON.parse(data);
-#  switch (j.status)
-#  {
-#  case 0:
-#  //good vote
-#  break;
-#  case -1:
-#  //bad access token
-#  break;
-
-#  case -2:
-#  //already voted
-#  break;
-
-#  case -3:
-#  //params not set
-#  break;
-
-#  }
-
-# });
-
 window.fbAsyncInit = ->
 
 	FB.init
@@ -42,9 +7,7 @@ window.fbAsyncInit = ->
 	  xfbml: true
 
 	FB.getLoginStatus fbLoginStatus
-	# Additional initialization code such as adding Event Listeners goes here
 
-# Load the SDK's source Asynchronously
 ((d) ->
   js = undefined
   id = "facebook-jssdk"
@@ -62,27 +25,32 @@ $ ->
 	getVotes()
 
 fbLoginStatus = (response)->
+	console.log response
 	if response.status is "connected"
 		$('.vote').html('Voted').addClass 'disabled'
 
-vote = ->
-
-
+vote = (token, who) ->
+	$.post "vote.php",
+	  vote: who
+	  access_token: token
+	, (data) ->
+	  j = JSON.parse(data)
+	  console.log "good vote"  if j.status is 0
+	  console.log "bad params"  if j.status is -3
+	  console.log "av"  if j.status is -2
 
 getVotes = ->
 	$.ajax(url: "http://onlineelection2012.com/num.php").success (data) ->
 	  j = JSON.parse(data)
 	  obama_per = Math.round((j.o / (j.o + j.r)) * 100)
 	  rom_per = Math.round((j.r / (j.o + j.r)) * 100)
-	  #$(".count.obama").html obama_per + "%"
-	 	# $(".count.romney").html rom_per + "%"
 
-	  TweenLite.to $(".count.obama"), 3,
+	  TweenLite.to $("#obama .count"), 3,
 	  	css:
 	  		bottom: obama_per + '%'
 	  	delay: 1
 
-	  TweenLite.to $(".count.romney"), 3,
+	  TweenLite.to $("#romney .count"), 3,
 	  	css:
 	  		bottom: rom_per + '%'
 	  	delay: 1
@@ -92,85 +60,78 @@ getVotes = ->
 	  	percent: obama_per
 	  	delay: 1
 	  	onUpdate: ->
-	  		$('.count.obama').html Math.round(obamaT.percent) + '%'
+	  		$('#obama .count').html Math.floor(Math.round(obamaT.percent)) + '%'
 
 	  romneyT = {percent: 50}
 	  TweenLite.to romneyT, 3,
 	  	percent: rom_per
 	  	delay: 1
 	  	onUpdate: ->
-	  		$('.count.romney').html Math.round(romneyT.percent) + '%'
+	  		$('#romney .count').html Math.floor(Math.round(romneyT.percent)) + '%'
 
 
 
 setListeners = ->
 	$('.check').on 'click', ->
-		console.log $(this).parent().children('.vote')
-		TweenLite.to $(this), .3
+		whichCandidate = $(this).parent().parent().attr 'id'
+		notCandidate = (if (whichCandidate is "obama") then 'romney' else 'obama')
+		obama = (if (whichCandidate is "obama") then '40%' else '60%')
+		romney = (if (whichCandidate is "romney") then '40%' else '60%')
+
+		TweenLite.to $('#' + notCandidate + ' .check'), .3
 			css:
-				marginLeft: -67
+				marginLeft: -18
+
+		TweenLite.to $('#' + notCandidate + ' .vote'), .3,
+			css:
+				opacity: 0
+				marginLeft: -60
+
+		TweenLite.to $(this), .3
+				css:
+					marginLeft: -67
 
 		TweenLite.to $(this).parent().children('.vote'), .3,
 			css:
 				opacity: 1
 				marginLeft: -22
-	$('#obama .check').on 'click', ->
+
 		if $(this).hasClass 'active'
-			TweenLite.to $('.count'), .3,
+			$('.check').removeClass 'active'
+
+			TweenLite.to $('#romney'), .3,
 				css:
 					left: '50%'
 
-			$('.check').removeClass 'active'
 			TweenLite.to $('#obama'), .3,
 				css:
 					right: '50%'
-			TweenLite.to $('#romney'), .3,
-				css:
-					left: '50%'
-		else
-			TweenLite.to $('.count'), .3,
-				css:
-					left: '60%'
 
+			TweenLite.to $('.check'), .3
+				css:
+					marginLeft: -18
+
+			TweenLite.to $('.vote'), .3,
+				css:
+					opacity: 0
+					marginLeft: -60
+		else
 			$('.check').removeClass 'active'
 			$(this).addClass 'active'
-			TweenLite.to $('#obama'), .3,
-				css:
-					right: '40%'
-			TweenLite.to $('#romney'), .3,
-				css:
-					left: '60%'
-	$('#romney .check').on 'click', ->
-		if $(this).hasClass 'active'
-			TweenLite.to $('.count'), .3,
-				css:
-					left: '50%'
 
-			$('.check').removeClass 'active'
 			TweenLite.to $('#obama'), .3,
 				css:
-					right: '50%'
-			TweenLite.to $('#romney'), .3,
-				css:
-					left: '50%'
-		else
-			TweenLite.to $('.count'), .3,
-				css:
-					left: '40%'
+					right: obama
 
-			$('.check').removeClass 'active'
-			$(this).addClass 'active'
-			TweenLite.to $('#obama'), .3,
-				css:
-					right: '60%'
 			TweenLite.to $('#romney'), .3,
 				css:
-					left: '40%'
-	$('vote').on 'click', ->
+					left: romney
+
+	$('.vote').on 'click', ->
 		unless $(this).hasClass 'disabled'
+			who = (if ($(this).parent().parent().attr("id") is "obama") then 0 else 1)
 			FB.login ((response) ->
-				console.log response
-			  #if response.authResponse
-			    #vote response.authResponse.authToken
+			  if response.authResponse
+			    vote response.authResponse.accessToken, who
 			),
 			  scope: "user_location"

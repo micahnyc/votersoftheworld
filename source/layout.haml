@@ -7,6 +7,7 @@
 		%meta{:name => "viewport", :content => "width=device-width, maximum-scale=1.0"}
 		%title Online Election 2012
 		%script{:src => "javascripts/modernizr-2.6.1.min.js", :type => "text/javascript"}
+		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Hammersmith+One'
 		= stylesheet_link_tag 'main.css'
 		= javascript_include_tag 'https://apis.google.com/js/plusone.js'
 		= javascript_include_tag '//platform.twitter.com/widgets.js'
@@ -36,11 +37,6 @@
 				%a{:href => "http://lvl3.se/theo/"} Theo
 				&amp;
 				%a{:href => "http://lvl3.se/theo/"} Nina
-		%span.info
-			We do not store
-			%strong any
-			of your
-			%strong information
 		%span.share
 			.fb-like{"data-font" => "arial", "data-href" => "http://bestfacebookfriend.com/", "data-layout" => "button_count", "data-send" => "false", "data-show-faces" => "false", "data-width" => "0"}
 			%a.twitter-share-button{"data-count" => "horizontal", "data-url" => "http://bestfacebookfriend.com/", :href => "https://twitter.com/share"} 	Tweet

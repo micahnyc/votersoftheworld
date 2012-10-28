@@ -190,7 +190,7 @@
         });
       }
     });
-    return $('.vote').on('click', function() {
+    $('.vote').on('click', function() {
       var who;
       if (!$(this).hasClass('disabled_not')) {
         who = ($(this).parent().parent().attr("id") === "obama" ? 0 : 1);
@@ -203,6 +203,22 @@
         });
       }
     });
+    $(window).on('resize', function() {
+      if ($(window).height() > 775) {
+        return $('footer').css({
+          position: 'fixed',
+          bottom: '0px',
+          top: 'auto'
+        });
+      } else {
+        return $('footer').css({
+          position: 'absolute',
+          top: '730px',
+          bottom: 'auto'
+        });
+      }
+    });
+    return $(window).resize();
   };
 
 }).call(this);

@@ -1,6 +1,17 @@
 @import "compass";
 @include global-reset;
 
+@font-face {
+	font-family: 'icomoon';
+	src:url('../fonts/icomoon.eot');
+	src:url('../fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.svg#icomoon') format('svg'),
+		url('../fonts/icomoon.woff') format('woff'),
+		url('../fonts/icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 body {
 	background: #de3339;
 	font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -9,6 +20,43 @@ body {
 a {
 	color: #FFF;
 	text-decoration: none;
+}
+
+h1 {
+	width: 100%;
+	font-family: 'Hammersmith One', sans-serif;
+	position: absolute;
+	top: 70px;
+	left: 0;
+	color: #FFF;
+	text-transform: uppercase;
+	font-size: 50px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, .4);
+	letter-spacing: -1px;
+	z-index: 9999;
+	position: relative;
+	text-align: center;
+	&:after, &:before {
+		content: " \22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22";
+		font-family: 'icomoon';
+		font-style: normal;
+		speak: none;
+		font-weight: normal;
+		letter-spacing: 12px;
+		-webkit-font-smoothing: antialiased;
+		position: absolute;
+		font-size: 13px;
+		left: 0px;
+		width: 100%;
+		text-align: center;
+		text-indent: 10px;
+	}
+	&:before {
+		top: -20px;
+	}
+	&:after {
+		bottom: -17px;
+	}
 }
 
 section {
@@ -126,19 +174,6 @@ section#romney {
 		margin: 5px;
 		background: #AAA;
 	}
-}
-
-h1 {
-	width: 514px;
-	height: 112px;
-	background: url(../images/electionlogo.png);
-	position: absolute;
-	top: 10px;
-	left: 50%;
-	margin-left: -257px;
-	text-indent: -9999px;
-	z-index: 9999;
-	display: none;
 }
 
 #obama .vote:hover {

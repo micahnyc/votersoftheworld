@@ -1,5 +1,5 @@
 (function() {
-  var fbLoginStatus, getVotes, setListeners, vote;
+  var fbLoginStatus, getVotes, setListeners, setupShareListeners, vote;
 
   window.fbAsyncInit = function() {
     FB.init({
@@ -27,8 +27,7 @@
   })(document);
 
   $(function() {
-    setListeners();
-    return getVotes();
+    return setListeners();
   });
 
   fbLoginStatus = function(response) {
@@ -39,7 +38,7 @@
   };
 
   vote = function(token, who) {
-    return $.post("vote.php", {
+    return $.post("http://onlineelection2012.com/vote.php", {
       vote: who,
       access_token: token
     }, function(data) {
@@ -55,27 +54,89 @@
         console.log("av");
       }
       if (who === 0) {
-        TweenLite.to($('#romney'), .3, {
+        TweenLite.to($('#romney'), .5, {
           css: {
             left: '100%'
           }
         });
-        return TweenLite.to($('#obama'), .3, {
+        TweenLite.to($('#obama'), .5, {
           css: {
-            right: '0%'
+            right: '0%',
+            border: 0
           }
         });
+        $('#obama h2').append(' for President!');
       } else {
-        TweenLite.to($('#romney'), .3, {
+        TweenLite.to($('#romney'), .5, {
           css: {
             left: '0%'
           }
         });
-        return TweenLite.to($('#obama'), .3, {
+        TweenLite.to($('#obama'), .5, {
           css: {
-            right: '100%'
+            right: '100%',
+            border: 0
           }
         });
+        $('#romney h2').append(' for President!');
+      }
+      return TweenLite.to($('.vote, .check'), .5, {
+        css: {
+          opacity: 0
+        },
+        delay: .5,
+        onComplete: function() {
+          $('.vote, .check').hide();
+          $('.share-btns').show();
+          return TweenLite.to($('.share-btns'), .5, {
+            css: {
+              opacity: 1
+            },
+            onComplete: function() {
+              return setupShareListeners();
+            }
+          });
+        }
+      });
+    });
+  };
+
+  setupShareListeners = function() {
+    return $('.share-btns div').on('click', function() {
+      var forWho, forWhoName, left, text, top;
+      forWho = $(this).parent().parent().parent().attr('id');
+      forWhoName = forWho.charAt(0).toUpperCase() + forWho.slice(1);
+      if ($(this).hasClass('fb')) {
+        FB.ui({
+          method: 'feed',
+          name: 'Online Election 2012',
+          link: 'http://onlineelection2012.com/',
+          picture: 'http://onlineelection2012.com/images/' + forWho + '.jpg',
+          caption: 'I voted for ' + forWhoName + ' in the Online Election 2012.',
+          description: 'Who would win the US Presidential Election 2012, if the internet could decide?'
+        }, function(response) {
+          if (response && response.post_id) {
+            return alert('Post was published.');
+          } else {
+            return alert('Post was not published.');
+          }
+        });
+      }
+      if ($(this).hasClass('twitter')) {
+        if (forWho === 'obama') {
+          text = 'I voted for Barack Obama in the Online Election 2012!';
+        }
+        if (forWho === 'romney') {
+          text = 'I voted for Mitt Romney in the Online Election 2012!';
+        }
+        left = (screen.width / 2) - (600 / 2);
+        top = (screen.height / 2) - (260 / 2);
+        window.open('https://twitter.com/intent/tweet?text=' + text + '&hashtags=vote, election, ' + forWho + '&url=http://onlineelection2012.com/', 'Tweet about your vote!', 'width=600, height=260, top=' + top + ', left=' + left);
+      }
+      if ($(this).hasClass('gplus')) {
+        left = (screen.width / 2) - (600 / 2);
+        top = (screen.height / 2) - (260 / 2);
+        return window.open('https://plus.google.com/share?url=http://onlineelection2012.com', 'Share your vote on Google+!', 'width=600, height=260, top=' + top + ', left=' + left);
       }
     });
   };
@@ -92,20 +153,20 @@
         css: {
           bottom: obama_per + '%'
         },
-        delay: 1
+        delay: .5
       });
       TweenLite.to($("#romney .count"), 3, {
         css: {
           bottom: rom_per + '%'
         },
-        delay: 1
+        delay: .5
       });
       obamaT = {
         percent: 50
       };
       TweenLite.to(obamaT, 3, {
         percent: obama_per,
-        delay: 1,
+        delay: .5,
         onUpdate: function() {
           return $('#obama .count').html(Math.floor(Math.round(obamaT.percent)) + '%');
         }
@@ -115,7 +176,7 @@
       };
       return TweenLite.to(romneyT, 3, {
         percent: rom_per,
-        delay: 1,
+        delay: .5,
         onUpdate: function() {
           return $('#romney .count').html(Math.floor(Math.round(romneyT.percent)) + '%');
         }
@@ -203,17 +264,43 @@
         });
       }
     });
+    $('.welcome .close, .dim').on('click', function() {
+      TweenLite.to($('.welcome'), .2, {
+        css: {
+          scale: 0
+        }
+      });
+      return TweenLite.to($('.dim'), .5, {
+        css: {
+          opacity: 0
+        },
+        onComplete: function() {
+          $('.dim').hide();
+          return getVotes();
+        }
+      });
+    });
     $(window).on('resize', function() {
       if ($(window).height() > 775) {
-        return $('footer').css({
+        $('footer').css({
           position: 'fixed',
-          bottom: '0px',
+          bottom: 0,
           top: 'auto'
         });
+        return $('.ad').css({
+          position: 'fixed',
+          top: 'auto',
+          bottom: 0
+        });
       } else {
-        return $('footer').css({
+        $('footer').css({
           position: 'absolute',
-          top: '730px',
+          top: 730,
+          bottom: 'auto'
+        });
+        return $('.ad').css({
+          position: 'absolute',
+          top: 630,
           bottom: 'auto'
         });
       }

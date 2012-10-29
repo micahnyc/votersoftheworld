@@ -28,8 +28,56 @@ a {
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, .8);
-	z-index: 999;
-	display: none;
+	z-index: 20;
+	display: block;
+}
+
+.welcome {
+	width: 500px;
+	height: auto;
+	background: #EDEDED;
+	@include border-radius(5px);
+	@include box-shadow(2px 2px 5px rgba(0, 0, 0, .5));
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	margin-left: -250px;
+	z-index: 30;
+	text-shadow: 1px 1px 0px #FFF;
+	.close {
+		width: 25px;
+		height: 25px;
+		background: #026f9f;
+		border: 2px solid lighten(#026f9f, 10%);
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		cursor: pointer;
+		@include border-radius(15px);
+		@include box-shadow(1px 1px 3px rgba(0, 0, 0, .3), inset 1px 1px 3px rgba(0, 0, 0, .3));
+		color: #EDEDED;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);
+		text-align: center;
+		line-height: 22px;
+		&:hover {
+			background: #de3339;
+			border: 2px solid lighten(#de3339, 10%);
+		}
+	}
+	h2 {
+		font-size: 16px;
+		font-weight: bold;
+		color: #222;
+		line-height: 22px;
+		padding: 20px 20px 0px 20px;
+	}
+	p {
+		padding: 20px;
+		font-size: 14px;
+		line-height: 18px;
+		color: #444;
+		padding-top: 10px;
+	}
 }
 
 h1 {
@@ -99,8 +147,8 @@ section#romney {
 }
 
 .profile {
-	width: 214px;
-	margin: 200px auto;
+	width: 100%;
+	margin-top: 200px;
 	text-align: center;
 	position: relative;
 	.image {
@@ -123,7 +171,6 @@ section#romney {
 	.check {
 		width: 30px;
 		height: 30px;
-		background: rgba(255, 255, 255, .1) url(../images/check_.png) no-repeat center center;
 		border: 3px solid rgba(255, 255, 255, .5);
 		@include border-radius(20px);
 		@include box-shadow(1px 1px 2px rgba(0, 0, 0, .3), inset 1px 1px 2px rgba(0, 0, 0, .3));
@@ -136,8 +183,23 @@ section#romney {
 		&:hover {
 			border: 3px solid rgba(255, 255, 255, .8);
 		}
+		&:after {
+			content: "\21";
+			font-family: 'icomoon';
+			font-style: normal;
+			speak: none;
+			font-weight: normal;
+			-webkit-font-smoothing: antialiased;
+			font-size: 19px;
+			line-height: 31px;
+			color: rgba(255, 255, 255, .4);
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+			text-align: center;
+		}
 		&.active {
-			background: rgba(255, 255, 255, .1) url(../images/check.png) no-repeat center center;
+			&:after {
+				color: #FFF;
+			}
 			border: 3px solid #fff;
 		}
 	}
@@ -159,16 +221,80 @@ section#romney {
 		cursor: pointer;
 		color: #999;
 		@include box-shadow(1px 1px 2px rgba(0, 0, 0, .3));
+		text-indent: 10px;
 		&.disabled {
 			color: #999 !important;
 			cursor: default;
 		}
+		&:after {
+			content: "\29";
+			font-family: 'icomoon';
+			font-style: normal;
+			speak: none;
+			font-weight: normal;
+			font-size: 21px;
+			position: absolute;
+			top: 0px;
+			left: 7px;
+			text-indent: 0px;
+			-webkit-font-smoothing: antialiased;
+		}
+	}
+	.share-btns {
+		width: 150px;
+		height: 50px;
+		margin: 20px auto;
+		position: relative;
+		opacity: 0;
+		display: none;
+		div {
+			width: 40px;
+			height: 40px;
+			background: #EEE;
+			float: left;
+			margin: 0px 5px;
+			cursor: pointer;
+			@include border-radius(5px);
+			@include box-shadow(1px 1px 3px rgba(0, 0, 0, .5));
+			&:after {
+				font-family: 'icomoon';
+				font-style: normal;
+				speak: none;
+				font-weight: normal;
+				font-size: 22px;
+				color: #555;
+				text-shadow: 1px 1px 0px #FFF;
+				text-align: center;
+				line-height: 40px;
+			}
+			&.fb:after {
+				content: "\29";
+			}
+			&.twitter:after {
+				content: "\2a";
+			}
+			&.gplus:after {
+				content: "\2b";
+			}
+		}
+		// &:after {
+		// 	content: "Share your vote";
+		// 	position: absolute;
+		// 	top: -20px;
+		// 	left: 5px;
+		// 	width: 290px;
+		// 	text-align: left;
+		// 	font-size: 13px;
+		// 	color: #FFF;
+		// 	font-weight: bold;
+		// 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+		// }
 	}
 }
 
 .ad {
 	position: absolute;
-	top: 600px;
+	top: 630px;
 	left: 50%;
 	margin-left: -369px;
 	margin-bottom: 50px;
@@ -182,19 +308,18 @@ section#romney {
 		width: 728px;
 		height: 90px;
 		margin: 5px;
-		background: #AAA;
 	}
 	.content_min {
-		width: 468px;
-		height: 60px;
+		width: 320px;
+		height: 50px;
 		margin: 5px;
-		background: #AAA;
 		display: none;
 	}
 	@media screen and (max-width: 748px) {
-		width: 478px;
-		height: 70px;
-		margin-left: -239px;
+		width: 330px;
+		height: 60px;
+		margin-left: -165px;
+		top: 670px;
 		.content_min {
 			display: block;
 		}
@@ -209,6 +334,14 @@ section#romney {
 }
 
 #romney .vote:hover {
+	color: #de3339;
+}
+
+#obama .share-btns div:hover:after {
+	color: #026f9f;
+}
+
+#romney .share-btns div:hover:after {
 	color: #de3339;
 }
 

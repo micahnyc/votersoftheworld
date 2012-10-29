@@ -54,11 +54,75 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 body {
   background: #de3339;
-  font-family: 'Helvetica Neue', Arial, sans-serif; }
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  overflow-x: hidden; }
 
 a {
   color: #FFF;
   text-decoration: none; }
+
+.dim {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 20;
+  display: block; }
+
+.welcome {
+  width: 500px;
+  height: auto;
+  background: #EDEDED;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  margin-left: -250px;
+  z-index: 30;
+  text-shadow: 1px 1px 0px #FFF; }
+  .welcome .close {
+    width: 25px;
+    height: 25px;
+    background: #026f9f;
+    border: 2px solid #0392d1;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
+    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3), inset 1px 1px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3), inset 1px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3), inset 1px 1px 3px rgba(0, 0, 0, 0.3);
+    color: #EDEDED;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    line-height: 22px; }
+    .welcome .close:hover {
+      background: #de3339;
+      border: 2px solid #e55f64; }
+  .welcome h2 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    line-height: 22px;
+    padding: 20px 20px 0px 20px; }
+  .welcome p {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #444;
+    padding-top: 10px; }
 
 h1 {
   width: 100%;
@@ -71,7 +135,7 @@ h1 {
   font-size: 50px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
   letter-spacing: -1px;
-  z-index: 9999;
+  z-index: 10;
   position: relative;
   text-align: center; }
   h1:after, h1:before {
@@ -120,8 +184,8 @@ section#romney {
     background-image: url(../images/romney.jpg); }
 
 .profile {
-  width: 214px;
-  margin: 180px auto;
+  width: 100%;
+  margin-top: 200px;
   text-align: center;
   position: relative; }
   .profile .image {
@@ -148,7 +212,6 @@ section#romney {
   .profile .check {
     width: 30px;
     height: 30px;
-    background: rgba(255, 255, 255, 0.1) url(../images/check_.png) no-repeat center center;
     border: 3px solid rgba(255, 255, 255, 0.5);
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -166,9 +229,22 @@ section#romney {
     z-index: 1; }
     .profile .check:hover {
       border: 3px solid rgba(255, 255, 255, 0.8); }
+    .profile .check:after {
+      content: "\21";
+      font-family: 'icomoon';
+      font-style: normal;
+      speak: none;
+      font-weight: normal;
+      -webkit-font-smoothing: antialiased;
+      font-size: 19px;
+      line-height: 31px;
+      color: rgba(255, 255, 255, 0.4);
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+      text-align: center; }
     .profile .check.active {
-      background: rgba(255, 255, 255, 0.1) url(../images/check.png) no-repeat center center;
       border: 3px solid #fff; }
+      .profile .check.active:after {
+        color: #FFF; }
   .profile .vote {
     width: 80px;
     height: 36px;
@@ -193,14 +269,65 @@ section#romney {
     color: #999;
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); }
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    text-indent: 10px; }
     .profile .vote.disabled {
       color: #999 !important;
       cursor: default; }
+    .profile .vote:after {
+      content: "\29";
+      font-family: 'icomoon';
+      font-style: normal;
+      speak: none;
+      font-weight: normal;
+      font-size: 21px;
+      position: absolute;
+      top: 0px;
+      left: 7px;
+      text-indent: 0px;
+      -webkit-font-smoothing: antialiased; }
+  .profile .share-btns {
+    width: 150px;
+    height: 50px;
+    margin: 20px auto;
+    position: relative;
+    opacity: 0;
+    display: none; }
+    .profile .share-btns div {
+      width: 40px;
+      height: 40px;
+      background: #EEE;
+      float: left;
+      margin: 0px 5px;
+      cursor: pointer;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
+      .profile .share-btns div:after {
+        font-family: 'icomoon';
+        font-style: normal;
+        speak: none;
+        font-weight: normal;
+        font-size: 22px;
+        color: #555;
+        text-shadow: 1px 1px 0px #FFF;
+        text-align: center;
+        line-height: 40px; }
+      .profile .share-btns div.fb:after {
+        content: "\29"; }
+      .profile .share-btns div.twitter:after {
+        content: "\2a"; }
+      .profile .share-btns div.gplus:after {
+        content: "\2b"; }
 
 .ad {
   position: absolute;
-  top: 600px;
+  top: 630px;
   left: 50%;
   margin-left: -369px;
   margin-bottom: 50px;
@@ -216,16 +343,36 @@ section#romney {
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
-  .ad .content {
+  .ad .content_big {
     width: 728px;
     height: 90px;
+    margin: 5px; }
+  .ad .content_min {
+    width: 320px;
+    height: 50px;
     margin: 5px;
-    background: #AAA; }
+    display: none; }
+  @media screen and (max-width: 748px) {
+    .ad {
+      width: 330px;
+      height: 60px;
+      margin-left: -165px;
+      top: 670px; }
+      .ad .content_min {
+        display: block; }
+      .ad .content_big {
+        display: none; } }
 
 #obama .vote:hover {
   color: #026f9f; }
 
 #romney .vote:hover {
+  color: #de3339; }
+
+#obama .share-btns div:hover:after {
+  color: #026f9f; }
+
+#romney .share-btns div:hover:after {
   color: #de3339; }
 
 .count {
@@ -238,7 +385,7 @@ section#romney {
   position: absolute;
   bottom: 50%;
   color: #444;
-  z-index: 999;
+  z-index: 10;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -279,7 +426,7 @@ footer {
   top: 730px;
   left: 0px;
   text-shadow: 1px 1px 1px #000;
-  z-index: 999;
+  z-index: 10;
   font-size: 12px;
   color: #FFF; }
   footer a {

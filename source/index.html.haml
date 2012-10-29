@@ -1,5 +1,8 @@
 .dim
 .welcome
+	.close ×
+	%h2 Who would win the US Presidential Election 2012, if the internet could decide?
+	%p Be a voter of the world and part of the Online Election 2012 by choosing your candidate and connecting to Facebook to vote. After you've placed your vote, share it with your friends and invite them to do the same. May the best man win.
 
 %h1
 	Online Election 2012
@@ -11,6 +14,10 @@
 		%h2 Barack Obama
 		.check
 		.vote Vote
+		.share-btns
+			.fb
+			.twitter
+			.gplus
 %section#romney
 	.count 50%
 	.profile
@@ -18,9 +25,31 @@
 		%h2 Mitt Romney
 		.check
 		.vote Vote
+		.share-btns
+			.fb
+			.twitter
+			.gplus
 
 .ad
 	.content_big
-		= image_tag "http://www.theeca.com/files/chrome728x90.jpg"
+		:javascript
+			<!--
+			google_ad_client = "ca-pub-5007728363122640";
+			/* vote2012 */
+			google_ad_slot = "5627787267";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+
+		= javascript_include_tag 'http://pagead2.googlesyndication.com/pagead/show_ads.js'
+
 	.content_min
-		= image_tag "http://images.apple.com/itunesaffiliates/US/2006/10/24/BarackObama_468x60.jpg"
+		:javascript
+			<!--
+			google_ad_client = "ca-pub-5007728363122640";
+			/* vote2012-mobile */
+			google_ad_slot = "4112255556";
+			google_ad_width = 320;
+			google_ad_height = 50;
+			//-->
+		= javascript_include_tag 'http://pagead2.googlesyndication.com/pagead/show_ads.js'

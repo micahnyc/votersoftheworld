@@ -31,7 +31,6 @@
   });
 
   fbLoginStatus = function(response) {
-    console.log(response);
     if (response.status === "connected") {
       return $('.vote').html('Voted').addClass('disabled');
     }
@@ -45,59 +44,54 @@
       var j;
       j = JSON.parse(data);
       if (j.status === 0) {
-        console.log("good vote");
-      }
-      if (j.status === -3) {
-        console.log("bad params");
-      }
-      if (j.status === -2) {
-        console.log("av");
-      }
-      if (who === 0) {
-        TweenLite.to($('#romney'), .5, {
-          css: {
-            left: '100%'
-          }
-        });
-        TweenLite.to($('#obama'), .5, {
-          css: {
-            right: '0%',
-            border: 0
-          }
-        });
-        $('#obama h2').append(' for President!');
-      } else {
-        TweenLite.to($('#romney'), .5, {
-          css: {
-            left: '0%'
-          }
-        });
-        TweenLite.to($('#obama'), .5, {
-          css: {
-            right: '100%',
-            border: 0
-          }
-        });
-        $('#romney h2').append(' for President!');
-      }
-      return TweenLite.to($('.vote, .check'), .5, {
-        css: {
-          opacity: 0
-        },
-        delay: .5,
-        onComplete: function() {
-          $('.vote, .check').hide();
-          $('.share-btns').show();
-          return TweenLite.to($('.share-btns'), .5, {
+        if (who === 0) {
+          TweenLite.to($('#romney'), .5, {
             css: {
-              opacity: 1
-            },
-            onComplete: function() {
-              return setupShareListeners();
+              left: '100%'
             }
           });
+          TweenLite.to($('#obama'), .5, {
+            css: {
+              right: '0%',
+              border: 0
+            }
+          });
+          $('#obama h2').append(' for President!');
+        } else {
+          TweenLite.to($('#romney'), .5, {
+            css: {
+              left: '0%'
+            }
+          });
+          TweenLite.to($('#obama'), .5, {
+            css: {
+              right: '100%',
+              border: 0
+            }
+          });
+          $('#romney h2').append(' for President!');
         }
-      });
+        return TweenLite.to($('.vote, .check'), .5, {
+          css: {
+            opacity: 0
+          },
+          delay: .5,
+          onComplete: function() {
+            $('.vote, .check').hide();
+            $('.share-btns').show();
+            return TweenLite.to($('.share-btns'), .5, {
+              css: {
+                opacity: 1
+              },
+              onComplete: function() {
+                return setupShareListeners();
+              }
+            });
+          }
+        });
+      } else {
+        return console.log('Something went wrong with the voting, throw an error.');
+      }
     });
   };
 
@@ -116,9 +110,9 @@
           description: 'Who would win the US Presidential Election 2012, if the internet could decide?'
         }, function(response) {
           if (response && response.post_id) {
-            return alert('Post was published.');
+            return console.log('Post was published.');
           } else {
-            return alert('Post was not published.');
+            return console.log('Post was not published.');
           }
         });
       }
@@ -253,7 +247,7 @@
     });
     $('.vote').on('click', function() {
       var who;
-      if (!$(this).hasClass('disabled_not')) {
+      if (!$(this).hasClass('disabled')) {
         who = ($(this).parent().parent().attr("id") === "obama" ? 0 : 1);
         return FB.login((function(response) {
           if (response.authResponse) {

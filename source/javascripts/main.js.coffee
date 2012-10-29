@@ -21,10 +21,18 @@ window.fbAsyncInit = ->
 ) document
 
 $ ->
+	createLogo()
 	setListeners()
 
+createLogo = ->
+	$('h1').append '<div class="stars"></div><div class="stars"></div>'
+	i = 0
+	while i < 22
+		console.log i
+		$('.stars').append '<div class="star">"</div>'
+		i++
+
 fbLoginStatus = (response)->
-	console.log response
 	if response.status is "connected"
 		$('.vote').html('Voted').addClass 'disabled'
 
@@ -34,40 +42,42 @@ vote = (token, who) ->
 		access_token: token
 	, (data) ->
 		j = JSON.parse(data)
-		console.log "good vote"  if j.status is 0
-		console.log "bad params"  if j.status is -3
-		console.log "av"  if j.status is -2
-
-		if who is 0
-			TweenLite.to $('#romney'), .5,
+		# console.log "good vote"  if j.status is 0
+		# console.log "bad params"  if j.status is -3
+		# console.log "av"  if j.status is -2
+		if j.status is 0
+			if who is 0
+				TweenLite.to $('#romney'), .5,
+					css:
+						left: '100%'
+				TweenLite.to $('#obama'), .5,
+					css:
+						right: '0%'
+						border: 0
+				$('#obama h2').append ' for President!'
+			else
+				TweenLite.to $('#romney'), .5,
+						css:
+							left: '0%'
+				TweenLite.to $('#obama'), .5,
+					css:
+						right: '100%'
+						border: 0
+				$('#romney h2').append ' for President!'
+			TweenLite.to $('.vote, .check'), .5,
 				css:
-					left: '100%'
-			TweenLite.to $('#obama'), .5,
-				css:
-					right: '0%'
-					border: 0
-			$('#obama h2').append ' for President!'
+					opacity: 0
+				delay: .5
+				onComplete: ->
+					$('.vote, .check').hide();
+					$('.share-btns').show()
+					TweenLite.to $('.share-btns'), .5,
+						css:
+							opacity: 1
+						onComplete: ->
+							setupShareListeners()
 		else
-			TweenLite.to $('#romney'), .5,
-					css:
-						left: '0%'
-			TweenLite.to $('#obama'), .5,
-				css:
-					right: '100%'
-					border: 0
-			$('#romney h2').append ' for President!'
-		TweenLite.to $('.vote, .check'), .5,
-			css:
-				opacity: 0
-			delay: .5
-			onComplete: ->
-				$('.vote, .check').hide();
-				$('.share-btns').show()
-				TweenLite.to $('.share-btns'), .5,
-					css:
-						opacity: 1
-					onComplete: ->
-						setupShareListeners()
+			console.log 'Something went wrong with the voting, throw an error.'
 
 setupShareListeners = ->
 	$('.share-btns div').on 'click', ->
@@ -83,9 +93,9 @@ setupShareListeners = ->
 				description: 'Who would win the US Presidential Election 2012, if the internet could decide?'
 			, (response) ->
 				if response and response.post_id
-					alert 'Post was published.'
+					console.log 'Post was published.'
 				else
-					alert 'Post was not published.'
+					console.log 'Post was not published.'
 		if $(this).hasClass 'twitter'
 			if forWho is 'obama'
 				text = 'I voted for Barack Obama in the Online Election 2012!'
@@ -187,7 +197,7 @@ setListeners = ->
 				css:
 					left: romney
 	$('.vote').on 'click', ->
-		unless $(this).hasClass 'disabled_not'
+		unless $(this).hasClass 'disabled'
 			who = (if ($(this).parent().parent().attr("id") is "obama") then 0 else 1)
 			FB.login ((response) ->
 				if response.authResponse

@@ -36,6 +36,10 @@
 			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
 %body{:class => page_classes}
+	.share
+		.fb-like{"data-font" => "arial", "data-href" => "http://onlineelection2012.com/", "data-layout" => "button_count", "data-send" => "false", "data-show-faces" => "false", "data-width" => "0"}
+		%a.twitter-share-button{"data-count" => "horizontal", "data-url" => "http://onlineelection2012.com/", :href => "https://twitter.com/share"} 	Tweet
+		%g:plusone{:href => "http://onlineelection2012.com/", :size => "medium"}
 	= yield
 
 	%footer
@@ -47,7 +51,3 @@
 				%a{:href => "http://lvl3.se/theo/"} Theo
 				&amp;
 				%a{:href => "http://managing-excellence.tumblr.com/"} Nina
-		%span.share
-			.fb-like{"data-font" => "arial", "data-href" => "http://onlineelection2012.com/", "data-layout" => "button_count", "data-send" => "false", "data-show-faces" => "false", "data-width" => "0"}
-			%a.twitter-share-button{"data-count" => "horizontal", "data-url" => "http://onlineelection2012.com/", :href => "https://twitter.com/share"} 	Tweet
-			%g:plusone{:href => "http://onlineelection2012.com/", :size => "medium"}

@@ -138,24 +138,32 @@ h1 {
   z-index: 10;
   position: relative;
   text-align: center; }
-  h1:after, h1:before {
-    content: " \22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22\22";
-    font-family: 'icomoon';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    letter-spacing: 12px;
-    -webkit-font-smoothing: antialiased;
-    position: absolute;
-    font-size: 13px;
-    left: 0px;
-    width: 100%;
-    text-align: center;
-    text-indent: 10px; }
   h1:before {
     top: -20px; }
   h1:after {
     bottom: -17px; }
+  h1 .stars {
+    width: 528px;
+    height: 20px;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    margin-left: -264px;
+    font-family: 'icomoon';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    letter-spacing: 0px;
+    -webkit-font-smoothing: antialiased;
+    font-size: 13px;
+    text-align: center; }
+    h1 .stars .star {
+      width: 14px;
+      height: 14px;
+      float: left;
+      margin: 0px 5px; }
+    h1 .stars:first-child {
+      top: 48px; }
 
 section {
   height: 100%;

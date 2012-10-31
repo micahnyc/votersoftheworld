@@ -424,16 +424,18 @@ footer {
 			display: none;
 		}
 	}
-	.share {
-		float: right;
-		margin-top: 15px;
-		margin-right: 0px;
-		div, iframe {
-			float: left;
-			margin-right: 10px;
-		}
-		iframe {
-			width: 87px !important;
-		}
+}
+
+.share {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	z-index: 99999;
+	div, iframe {
+		float: left;
+		margin-right: 10px;
+	}
+	iframe {
+		width: 87px !important;
 	}
 }

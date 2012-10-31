@@ -1,5 +1,5 @@
 (function() {
-  var fbLoginStatus, getVotes, setListeners, setupShareListeners, vote;
+  var createLogo, fbLoginStatus, getVotes, setListeners, setupShareListeners, vote;
 
   window.fbAsyncInit = function() {
     FB.init({
@@ -27,8 +27,22 @@
   })(document);
 
   $(function() {
+    createLogo();
     return setListeners();
   });
+
+  createLogo = function() {
+    var i, _results;
+    $('h1').append('<div class="stars"></div><div class="stars"></div>');
+    i = 0;
+    _results = [];
+    while (i < 22) {
+      console.log(i);
+      $('.stars').append('<div class="star">"</div>');
+      _results.push(i++);
+    }
+    return _results;
+  };
 
   fbLoginStatus = function(response) {
     if (response.status === "connected") {
